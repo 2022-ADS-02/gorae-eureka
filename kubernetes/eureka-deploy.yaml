@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gorae-eureka-service
+spec:
+  selector:
+    app: gorae-eureka
+  ports:
+    - protocol: 'TCP'
+      port: 8761
+      targetPort: 8761
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gorae-eureka
+  labels:
+    app: gorae-eureka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gorae-eureka
+  template:
+    metadata:
+      labels:
+        app: gorae-eureka
+    spec:
+      containers:
+        - name: gorae-eureka
+          image: lifetwoshot/gorae-eureka:latest
+          imagePullPolicy: Always
